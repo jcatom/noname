@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.jml1024.subdragon.mapper.SysUserMapper">
+    <resultMap id="BaseResultMap" type="cc.jml1024.subdragon.entity.SysUser">
+        <id column="id" jdbcType="BIGINT" property="id" javaType="java.lang.Long"/>
+        <result column="username" jdbcType="VARCHAR" property="username" javaType="java.lang.String"/>
+        <result column="password" jdbcType="VARCHAR" property="password" javaType="java.lang.String"/>
+        <result column="is_enabled" jdbcType="TINYINT" property="enabled" javaType="boolean"/>
+        <result column="is_account_non_expired" jdbcType="TINYINT" property="accountNonExpired" javaType="boolean"/>
+        <result column="is_account_non_locked" jdbcType="TINYINT" property="accountNonLocked" javaType="boolean"/>
+        <result column="is_credentials_non_expired" jdbcType="TINYINT" property="credentialsNonExpired" javaType="boolean"/>
+    </resultMap>
+
+    <sql id="selectSql">
+        id, username, password, is_enabled, is_account_non_expired, is_account_non_locked, is_credentials_non_expired
+    </sql>
+
+    <sql id="insertSql">
+        username, password, is_enabled, is_account_non_expired, is_account_non_locked, is_credentials_non_expired
+    </sql>
+
+    <select id="getByUsername" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+            <include refid="selectSql" />
+        from sys_user
+        <where>
+            username = #{username, jdbcType=VARCHAR}
+        </where>
+        limit 0,1
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+            <include refid="selectSql" />
+        from sys_user
+        <where>
+            id = ${id, jdbcType=INTEGER}
+        </where>
+    </select>
+
+    <insert id="save" parameterType="cc.jml1024.subdragon.entity.SysUser" keyProperty="id" useGeneratedKeys="true">
+        insert into
+            sys_user (<include refid="insertSql" />)
+        value (
+            #{username, jdbcType=VARCHAR},
+            #{password, jdbcType=VARCHAR},
+            #{enabled, jdbcType=TINYINT},
+            #{accountNonExpired, jdbcType=TINYINT},
+            #{accountNonLocked, jdbcType=TINYINT},
+            #{credentialsNonExpired, jdbcType=TINYINT}
+        )
+    </insert>
+
+    <insert id="saveSelective" parameterType="cc.jml1024.subdragon.entity.SysUser" keyProperty="id" useGeneratedKeys="true">
+        insert into
+        sys_user
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="username != null and username != ''">
+                    username,
+                </if>
+                <if test="password != null and password != ''">
+                    password,
+                </if>
+                <if test="enabled != null">
+                    is_enabled,
+                </if>
+                <if test="accountNonExpired != null">
+                    is_account_non_expired,
+                </if>
+                <if test="accountNonLocked != null">
+                    is_account_non_locked,
+                </if>
+                <if test="credentialsNonExpired != null">
+                    is_credentials_non_expired,
+                </if>
+            </trim>
+            <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="username != null and username != ''">
+                    #{username, jdbcType=VARCHAR},
+                </if>
+                <if test="password != null and password != ''">
+                    #{password, jdbcType=VARCHAR},
+                </if>
+                <if test="enabled != null">
+                    #{enabled, jdbcType=TINYINT},
+                </if>
+                <if test="accountNonExpired != null">
+                    #{accountNonExpired, jdbcType=TINYINT},
+                </if>
+                <if test="accountNonLocked != null">
+                    #{accountNonLocked, jdbcType=TINYINT},
+                </if>
+                <if test="credentialsNonExpired != null">
+                    #{credentialsNonExpired, jdbcType=TINYINT},
+                </if>
+            </trim>
+    </insert>
+
+    <update id="update" parameterType="cc.jml1024.subdragon.entity.SysUser">
+        update sys_user
+        <set>
+            username = #{username, jdbcType=VARCHAR},
+            password = #{password, jdbcType=VARCHAR},
+            is_enabled = #{enabled, jdbcType=TINYINT},
+            is_account_non_expired = #{accountNonExpired, jdbcType=TINYINT},
+            is_account_non_locked = #{accountNonLocked, jdbcType=TINYINT},
+            is_credentials_non_expired = #{credentialsNonExpired, jdbcType=TINYINT}
+        </set>
+        <where>
+            id = #{id, jdbcType=BIGINT}
+        </where>
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from sys_user
+        <where>
+            id = #{id, jdbcType=BIGINT}
+        </where>
+    </delete>
+
+    <select id="getListBy" parameterType="cc.jml1024.subdragon.qry.SysUserQry" resultMap="BaseResultMap">
+        SELECT <include refid="selectSql"/>
+        FROM sys_user
+        <where>
+            <if test="username != null and username != ''">
+                AND username = #{username, jdbcType=VARCHAR}
+            </if>
+            <if test="enabled != null">
+                AND is_enabled = #{enabled, jdbcType=TINYINT}
+            </if>
+            <if test="accountNonExpired != null">
+                AND is_account_non_expired = #{accountNonExpired, jdbcType=TINYINT}
+            </if>
+            <if test="accountNonLocked != null">
+                AND is_account_non_locked = #{accountNonLocked, jdbcType=TINYINT}
+            </if>
+            <if test="credentialsNonExpired != null">
+                iAND s_credentials_non_expired = #{credentialsNonExpired, jdbcType=TINYINT}
+            </if>
+        </where>
+        <if test="pageNum != null">
+            LIMIT #{pageNum},#{pageSize}
+        </if>
+    </select>
+
+    <select id="getCount" parameterType="cc.jml1024.subdragon.qry.SysUserQry" resultType="Integer">
+        SELECT COUNT(*)
+        FROM sys_user
+        <where>
+            <if test="username != null and username != ''">
+                AND username = #{username, jdbcType=VARCHAR}
+            </if>
+            <if test="enabled != null">
+                AND is_enabled = #{enabled, jdbcType=TINYINT}
+            </if>
+            <if test="accountNonExpired != null">
+                AND is_account_non_expired = #{accountNonExpired, jdbcType=TINYINT}
+            </if>
+            <if test="accountNonLocked != null">
+                AND is_account_non_locked = #{accountNonLocked, jdbcType=TINYINT}
+            </if>
+            <if test="credentialsNonExpired != null">
+                AND is_credentials_non_expired = #{credentialsNonExpired, jdbcType=TINYINT}
+            </if>
+        </where>
+    </select>
+</mapper>
+
