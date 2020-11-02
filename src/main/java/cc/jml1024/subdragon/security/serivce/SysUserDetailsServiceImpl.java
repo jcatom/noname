@@ -15,8 +15,11 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Evil
+ */
 @Service
-public class SysUserDetailsService implements UserDetailsService {
+public class SysUserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private SysUserSerivce sysUserSerivce;

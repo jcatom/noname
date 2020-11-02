@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Date;
 import java.util.List;
 
 @SpringBootTest
@@ -26,12 +27,13 @@ public class SysUserServiceTests {
     @Test
     public void test_save() {
         SysUser user = new SysUser();
-        user.setUsername("testuser");
+        user.setUsername("admin");
         user.setPassword(new BCryptPasswordEncoder().encode("123456"));
         user.setEnabled(true);
         user.setAccountNonExpired(true);
         user.setAccountNonLocked(true);
         user.setCredentialsNonExpired(true);
+        user.setCreateDate(new Date());
         sysUserSerivce.save(user);
         newUserId = user.getId();
         System.out.println(newUserId);

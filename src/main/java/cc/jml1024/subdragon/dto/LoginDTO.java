@@ -1,7 +1,8 @@
 package cc.jml1024.subdragon.dto;
 
-import org.springframework.validation.annotation.Validated;
-
+/**
+ * @author Evil
+ */
 public class LoginDTO {
     private String username;
     private String password;

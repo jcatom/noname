@@ -1,5 +1,8 @@
 package cc.jml1024.subdragon.qry;
 
+/**
+ * @author Evil
+ */
 public class SysUserQry extends BaseQry {
     private String username;
     private Boolean enabled;

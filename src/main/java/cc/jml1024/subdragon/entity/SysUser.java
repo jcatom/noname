@@ -4,7 +4,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Date;
 
+/**
+ * @author Evil
+ */
 public class SysUser implements UserDetails {
     private Long id;
     private String username;
@@ -13,6 +17,8 @@ public class SysUser implements UserDetails {
     private boolean accountNonExpired;
     private boolean accountNonLocked;
     private boolean credentialsNonExpired;
+    private Date createDate;
+    private Date lastUpdateDate;
 
     private Collection<GrantedAuthority> authorities;
 
@@ -86,5 +92,21 @@ public class SysUser implements UserDetails {
 
     public void setCredentialsNonExpired(boolean credentialsNonExpired) {
         this.credentialsNonExpired = credentialsNonExpired;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getLastUpdateDate() {
+        return lastUpdateDate;
+    }
+
+    public void setLastUpdateDate(Date lastUpdateDate) {
+        this.lastUpdateDate = lastUpdateDate;
     }
 }

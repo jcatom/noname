@@ -1,5 +1,8 @@
 package cc.jml1024.subdragon.qry;
 
+/**
+ * @author Evil
+ */
 public class BaseQry {
     private Long id;
     private Integer pageNum;

@@ -9,14 +9,16 @@
         <result column="is_account_non_expired" jdbcType="TINYINT" property="accountNonExpired" javaType="boolean"/>
         <result column="is_account_non_locked" jdbcType="TINYINT" property="accountNonLocked" javaType="boolean"/>
         <result column="is_credentials_non_expired" jdbcType="TINYINT" property="credentialsNonExpired" javaType="boolean"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate" javaType="java.util.Date"/>
+        <result column="last_update_date" jdbcType="TIMESTAMP" property="lastUpdateDate" javaType="java.util.Date"/>
     </resultMap>
 
     <sql id="selectSql">
-        id, username, password, is_enabled, is_account_non_expired, is_account_non_locked, is_credentials_non_expired
+        id, username, password, is_enabled, is_account_non_expired, is_account_non_locked, is_credentials_non_expired,create_date, last_update_date
     </sql>
 
     <sql id="insertSql">
-        username, password, is_enabled, is_account_non_expired, is_account_non_locked, is_credentials_non_expired
+        username, password, is_enabled, is_account_non_expired, is_account_non_locked, is_credentials_non_expired,create_date
     </sql>
 
     <select id="getByUsername" resultMap="BaseResultMap" parameterType="java.lang.String">
@@ -47,7 +49,8 @@
             #{enabled, jdbcType=TINYINT},
             #{accountNonExpired, jdbcType=TINYINT},
             #{accountNonLocked, jdbcType=TINYINT},
-            #{credentialsNonExpired, jdbcType=TINYINT}
+            #{credentialsNonExpired, jdbcType=TINYINT},
+            #{createDate, jdbcType=TIMESTAMP}
         )
     </insert>
 
@@ -73,6 +76,9 @@
                 <if test="credentialsNonExpired != null">
                     is_credentials_non_expired,
                 </if>
+                <if test="createDate != null">
+                    create_date,
+                </if>
             </trim>
             <trim prefix="values (" suffix=")" suffixOverrides=",">
                 <if test="username != null and username != ''">
@@ -93,6 +99,9 @@
                 <if test="credentialsNonExpired != null">
                     #{credentialsNonExpired, jdbcType=TINYINT},
                 </if>
+                <if test="createDate != null">
+                    #{createDate, jdbcType=TIMESTAMP},
+                </if>
             </trim>
     </insert>
 
@@ -104,7 +113,8 @@
             is_enabled = #{enabled, jdbcType=TINYINT},
             is_account_non_expired = #{accountNonExpired, jdbcType=TINYINT},
             is_account_non_locked = #{accountNonLocked, jdbcType=TINYINT},
-            is_credentials_non_expired = #{credentialsNonExpired, jdbcType=TINYINT}
+            is_credentials_non_expired = #{credentialsNonExpired, jdbcType=TINYINT},
+            create_date = #{createDate, jdbcType=TIMESTAMP},
         </set>
         <where>
             id = #{id, jdbcType=BIGINT}
