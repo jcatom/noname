@@ -56,6 +56,12 @@
 
         <!-- database end-->
 
+        <dependency>
+            <groupId>cc.jml1024.spring.boot</groupId>
+            <artifactId>kaptcha-spring-boot-starter</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
         <!-- test start -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
