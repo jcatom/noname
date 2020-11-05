@@ -33,7 +33,6 @@ public class CaptchaVerifyFilter extends GenericFilterBean {
             String verifyCode = request.getParameter("verifyCode");
             if (verifyCode == null || "".equals(verifyCode)) {
                 logger.error("验证码为空");
-                return;
             }
         }
         filterChain.doFilter(servletRequest, servletResponse);
