@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.addFilterBefore(captchaVerifyFilter, UsernamePasswordAuthenticationFilter.class)
             .authorizeRequests()
-                .antMatchers("/assets/**").permitAll()
+                .antMatchers("/assets/**", "/verifyCode/image").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()

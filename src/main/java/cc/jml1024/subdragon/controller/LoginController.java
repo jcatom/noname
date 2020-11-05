@@ -15,13 +15,6 @@ public class LoginController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @GetMapping("/login")
     public String login() {
-        logger.info("=========Login request========");
         return "login";
-    }
-
-    @PostMapping("/loginAuth")
-    public String loginAuth(LoginDTO dto) {
-        logger.info("login dto : [{}]", dto);
-        return "redirect:/controlPanel";
     }
 }
