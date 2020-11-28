@@ -27,6 +27,9 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         SysUser sysUser = sysUserSerivce.getByUsername(username);
+        if (sysUser == null) {
+            throw new UsernameNotFoundException("用户不存在");
+        }
         List<GrantedAuthority> authorities = new ArrayList<>();
         GrantedAuthority authority = new SimpleGrantedAuthority("ADMIN");
         authorities.add(authority);
