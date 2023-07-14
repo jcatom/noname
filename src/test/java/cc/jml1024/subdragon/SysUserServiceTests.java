@@ -27,7 +27,7 @@ public class SysUserServiceTests {
     @Test
     public void test_save() {
         SysUser user = new SysUser();
-        user.setUsername("admin");
+        user.setUsername("root");
         user.setPassword(new BCryptPasswordEncoder().encode("123456"));
         user.setEnabled(true);
         user.setAccountNonExpired(true);
@@ -98,17 +98,18 @@ public class SysUserServiceTests {
 
     @Test
     public void test_deleteByPrimaryKey() {
-        SysUser user = sysUserSerivce.getByUsername("testuser1");
-        int result = sysUserSerivce.deleteByPrimaryKey(user.getId());
-        System.out.println(result);
-    }
-
-    @Test
-    public void test_saveSelection() {
         SysUser user = new SysUser();
-        user.setUsername("testuser");
-        user.setPassword("123456");
-        sysUserSerivce.saveSelective(user);
+        user.setUsername("testuser1");
+        user.setPassword(new BCryptPasswordEncoder().encode("123456"));
+        user.setEnabled(true);
+        user.setAccountNonExpired(true);
+        user.setAccountNonLocked(true);
+        user.setCredentialsNonExpired(true);
+        user.setCreateDate(new Date());
+        sysUserSerivce.save(user);
+        newUserId = user.getId();
+        System.out.println(newUserId);
+        user = sysUserSerivce.getByUsername("testuser1");
         int result = sysUserSerivce.deleteByPrimaryKey(user.getId());
         System.out.println(result);
     }

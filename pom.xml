@@ -5,20 +5,21 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.3.RELEASE</version>
+        <version>3.0.6</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>cc.jml1024</groupId>
-    <artifactId>sub-dragon</artifactId>
+    <artifactId>noname</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>sub-dragon</name>
-    <description>sub dragon cms</description>
+    <name>noname</name>
+    <description>noname cms</description>
 
     <properties>
-        <java.version>11</java.version>
-        <mybatis.spring.boot.version>2.1.3</mybatis.spring.boot.version>
+        <java.version>17</java.version>
+        <mybatis.spring.boot.version>3.0.1</mybatis.spring.boot.version>
         <mysql.connector.version>8.0.21</mysql.connector.version>
-        <druid.spring.boot.version>1.1.24</druid.spring.boot.version>
+        <druid.spring.boot.version>1.2.18</druid.spring.boot.version>
+        <kaptcha.version>1.0-SNAPSHOT</kaptcha.version>
     </properties>
 
     <dependencies>
@@ -57,7 +58,7 @@
         <!-- database end-->
 
         <dependency>
-            <groupId>cc.jml1024.spring.boot</groupId>
+            <groupId>cc.jml1024.kaptcha</groupId>
             <artifactId>kaptcha-spring-boot-starter</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
@@ -88,6 +89,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.3.3.RELEASE</version>
             </plugin>
         </plugins>
     </build>
@@ -100,6 +102,24 @@
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profile.active>test</profile.active>
+            </properties>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <profile.active>prod</profile.active>
+            </properties>
+            <activation>
+                <activeByDefault>false</activeByDefault>
             </activation>
         </profile>
     </profiles>
