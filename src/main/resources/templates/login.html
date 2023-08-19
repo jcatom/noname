@@ -6,11 +6,11 @@
         <title>登录</title>
     </head>
     <body>
-        <span th:if="${param.error}" th:text="${sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message} "/>
+        <span th:if="${param.error ne null and param.error and session.SPRING_SECURITY_LAST_EXCEPTION ne null}" th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.getMessage()} "/>
         <form th:action="@{/login}" method="post">
             username:<input type="text" name="username" /> <br/>
             password:<input type="password" name="password" /><br/>
-            verify code:<input type="text" name="verifyCode" /> <img th:src="@{/verifyCode/image}" style="height:40px;width:93px;margin-top: -20px;padding-top: -10px;"/> <br/>
+            verify code:<input type="text" name="captcha" /> <img th:src="@{/captcha/image}" style="height:40px;width:93px;margin-top: -20px;padding-top: -10px;"/> <br/>
             <input type="submit" name="submit" value="submit" />
             <input type="reset" name="reset" value="reset"/>
         </form>

@@ -2,9 +2,11 @@ package cc.jml1024.noname.controller;
 
 
 import cc.jml1024.kaptcha.Producer;
+import cc.jml1024.spring.boot.autoconfigure.KaptchaProperties;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +21,20 @@ import java.io.IOException;
  * @author Evil
  */
 @Controller
-public class VerifyCodeController {
+@RequestMapping("/captcha")
+public class CaptchaController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Autowired
+    private KaptchaProperties kaptchaProps;
     private Producer producer;
 
-    @RequestMapping("/verifyCode/image")
+    public CaptchaController(KaptchaProperties kaptchaProps, Producer producer) {
+        this.kaptchaProps = kaptchaProps;
+        this.producer = producer;
+    }
+
+    @RequestMapping("/image")
     public void getVerifyCode(HttpServletRequest request, HttpServletResponse response){
         // Set standard HTTP/1.1 no-cache headers.
         response.setHeader("Cache-Control", "no-store, no-cache");
@@ -41,12 +49,20 @@ public class VerifyCodeController {
         BufferedImage bi = producer.createImage(capText);
         ServletOutputStream out = null;
 
-        // write the data out
+        String sessionCaptchaKey = kaptchaProps.getSession().getKey();
+
+        String sessionCaptchaDate = kaptchaProps.getSession().getDate();
+        HttpSession session = request.getSession();
+        session.setAttribute(sessionCaptchaKey, capText);
+        session.setAttribute(sessionCaptchaDate, System.currentTimeMillis());
         try {
+            // write the data out
             out = response.getOutputStream();
             ImageIO.write(bi, "jpg", out);
             out.flush();
         } catch (IOException e) {
+            session.removeAttribute(sessionCaptchaKey);
+            session.removeAttribute(sessionCaptchaDate);
             logger.error("Failed to write image to output stream", e);
             e.printStackTrace();
         } finally {

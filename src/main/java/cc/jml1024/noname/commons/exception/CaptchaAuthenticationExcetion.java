@@ -6,12 +6,12 @@ import org.springframework.security.core.AuthenticationException;
 /**
  * @author Evil
  */
-public class CaptchaVerifyExcetion extends AuthenticationException {
-    public CaptchaVerifyExcetion(String msg) {
+public class CaptchaAuthenticationExcetion extends AuthenticationException {
+    public CaptchaAuthenticationExcetion(String msg) {
         super(msg);
     }
 
-    public CaptchaVerifyExcetion(String msg, Throwable cause) {
+    public CaptchaAuthenticationExcetion(String msg, Throwable cause) {
         super(msg, cause);
     }
 }

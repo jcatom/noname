@@ -1,6 +1,6 @@
 package cc.jml1024.noname.security.config;
 
-import cc.jml1024.noname.security.filter.CaptchaVerifyFilter;
+import cc.jml1024.noname.security.filter.CaptchaAuthenticationFilter;
 import cc.jml1024.noname.security.serivce.SysUserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +22,7 @@ public class SecurityConfig {
     private SysUserDetailsServiceImpl sysUserDetailsServiceImpl;
 
     @Autowired
-    private CaptchaVerifyFilter captchaVerifyFilter;
+    private CaptchaAuthenticationFilter captchaAuthenticationFilter;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -42,13 +42,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
-                .requestMatchers("/assets/**", "/verifyCode/image", "/error")
+                .requestMatchers("/assets/**", "/captcha/image", "/error")
                 .permitAll().anyRequest().authenticated();
-        http.addFilterBefore(captchaVerifyFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(captchaAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         http.formLogin()
                 .loginPage("/login").permitAll()
                 .defaultSuccessUrl("/controlPanel")
-                .failureUrl("/login");
+                .failureUrl("/login?error=true");
         http.logout()
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login").permitAll();
