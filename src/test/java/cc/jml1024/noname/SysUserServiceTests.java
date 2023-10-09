@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = SubDragonApplication.class)
+@SpringBootTest(classes = NonameApplication.class)
 public class SysUserServiceTests {
 
     @Autowired

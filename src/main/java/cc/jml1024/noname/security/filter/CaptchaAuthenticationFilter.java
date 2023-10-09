@@ -9,23 +9,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-
 import java.io.IOException;
-import java.util.Date;
 
 /**
  * @author Evil
@@ -33,14 +23,16 @@ import java.util.Date;
 @Component
 public class CaptchaAuthenticationFilter extends OncePerRequestFilter {
     private Logger logger = LoggerFactory.getLogger(getClass());
-    private final String FILTER_URI = "/login";
+    private final String FILTER_URI = "/login/login";
     private KaptchaProperties kaptchaProps;
 
-    private AuthenticationFailureHandler failureHandler = new SimpleUrlAuthenticationFailureHandler("/login?error=true");
+    private AuthenticationFailureHandler failureHandler;
 
-    @Autowired
-    public CaptchaAuthenticationFilter(KaptchaProperties kaptchaProps) {
+
+    @Lazy
+    public CaptchaAuthenticationFilter(KaptchaProperties kaptchaProps, AuthenticationFailureHandler failureHandler) {
         this.kaptchaProps = kaptchaProps;
+        this.failureHandler = failureHandler;
     }
 
     @Override
